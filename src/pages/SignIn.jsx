@@ -43,6 +43,7 @@ function SignIn() {
               className='passwordInput'
               placeholder='Password'
               id='password'
+              value={password}
               onChange={onChange}
             />
 
