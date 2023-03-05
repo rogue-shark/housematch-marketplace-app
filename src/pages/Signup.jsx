@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import {toast} from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom';
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
+import {doc, setDoc, serverTimestamp} from 'firebase/firestore'
 import { db } from '../firebase.config'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
@@ -38,10 +40,16 @@ function SignUp() {
       updateProfile(auth.currentUser, {
         displayName: name
       }) 
+      //copying our form data state - name and email 
+      const formDataCopy = {...formData}
+      delete formDataCopy.password //don't want to put pass in db
+      formDataCopy.timestamp = serverTimestamp()
+      //update the database
+      await setDoc(doc(db, 'users', user.uid), formDataCopy) 
 
       navigate('/')
     } catch (error) {
-      console.log(error)
+      toast.error('Oops, something went wrong! Please, try again.')
     }
   }
 
