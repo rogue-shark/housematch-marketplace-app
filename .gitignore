@@ -24,3 +24,4 @@ yarn-error.log*
 
 #OTHERS
 firebase.config.js
+.env

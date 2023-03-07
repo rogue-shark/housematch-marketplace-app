@@ -12,6 +12,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 import Spinner from '../components/Spinner'
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxGeocoder = mbxGeocoding({
+  accessToken:
+    process.env.REACT_APP_MAPBOX_API,
+});
+
 
 function CreateListing() {
   const [geolocationEnabled, setGeolocationEnabled] = useState(true)
@@ -78,7 +85,7 @@ function CreateListing() {
 
     if (discountedPrice >= regularPrice) {
       setLoading(false)
-      toast.error('Discounted price needs to be less than regular price')
+      toast.error('Discounted price should be less than regular price')
       return
     }
 
@@ -88,23 +95,34 @@ function CreateListing() {
       return
     }
 
+    //LOCATION - geoCoding
     let geolocation = {}
     let location
 
     if (geolocationEnabled) {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
-      )
+      //FOR google maps api - geocoding:
+      // const response = await fetch(
+      //   `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+      // )
+      // const data = await response.json()
 
-      const data = await response.json()
+      //MAPBOX - geocoding 
+      const fetchData = async () => {
+        const geoData = await mbxGeocoder
+          .forwardGeocode({
+            query: address,
+            limit: 1,
+          })
+          .send();
+        // console.log(geoData.body.features[0].geometry);
 
-      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
-      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
+        geolocation.lat = geoData.body.features[0]?.geometry.coordinates[1]
+        geolocation.lng = geoData.body.features[0]?.geometry.coordinates[0]
 
-      location =
-        data.status === 'ZERO_RESULTS'
-          ? undefined
-          : data.results[0]?.formatted_address
+        location = geoData.body.features[0].place_name
+        }
+
+        fetchData()
 
       if (location === undefined || location.includes('undefined')) {
         setLoading(false)
@@ -205,7 +223,7 @@ function CreateListing() {
     if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
-        [e.target.id]: boolean ?? e.target.value,
+        [e.target.id]: boolean ?? e.target.value,  //e.target.id is recognized by id attribute
       }))
     }
   }
@@ -447,6 +465,7 @@ function CreateListing() {
             Create Listing
           </button>
         </form>
+    
       </main>
     </div>
   )
