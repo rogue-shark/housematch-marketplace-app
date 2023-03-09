@@ -16,7 +16,7 @@ import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxGeocoder = mbxGeocoding({
   accessToken:
-    process.env.REACT_APP_MAPBOX_API,
+    process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
 
@@ -106,7 +106,7 @@ function CreateListing() {
       // )
       // const data = await response.json()
 
-      //MAPBOX - geocoding 
+      //MapBox - geocoding 
       const fetchData = async () => {
         const geoData = await mbxGeocoder
           .forwardGeocode({
@@ -114,32 +114,35 @@ function CreateListing() {
             limit: 1,
           })
           .send();
-        // console.log(geoData.body.features[0].geometry);
+        console.log(geoData.body);
 
         geolocation.lat = geoData.body.features[0]?.geometry.coordinates[1]
         geolocation.lng = geoData.body.features[0]?.geometry.coordinates[0]
 
         location = geoData.body.features[0].place_name
+
+          if (location === undefined || location.includes('undefined')) {
+            setLoading(false)
+            toast.error('Please enter a correct address')
+            return
+          }
         }
 
         fetchData()
 
-      if (location === undefined || location.includes('undefined')) {
-        setLoading(false)
-        toast.error('Please enter a correct address')
-        return
-      }
+
     } else {
+      //if geoLocation is not enabled
       geolocation.lat = latitude
       geolocation.lng = longitude
     }
 
-    // Store image in firebase
+    // Store/Upload image in firebase - https://rb.gy/uueymw
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
-        const storage = getStorage()
+        const storage = getStorage() //initialize storage
         const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`
-
+        //storage reference - ref(storage, path +(i.e. concat) filename)
         const storageRef = ref(storage, 'images/' + fileName)
 
         const uploadTask = uploadBytesResumable(storageRef, image)
@@ -149,7 +152,7 @@ function CreateListing() {
           (snapshot) => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            console.log('Upload is ' + progress + '% done')
+              console.log('Upload is ' + progress + '% done')
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused')
@@ -174,7 +177,8 @@ function CreateListing() {
         )
       })
     }
-
+    //** for multiple images 
+    // Promise.all resolves multiple promises i.e by taking array of promises
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch(() => {
@@ -182,7 +186,9 @@ function CreateListing() {
       toast.error('Images not uploaded')
       return
     })
-
+    
+    //now storing only the essential data in a new variable (our new collection) - formDataCopy
+    //Adding our new geolocation coordinates & images urls
     const formDataCopy = {
       ...formData,
       imgUrls,
@@ -190,11 +196,13 @@ function CreateListing() {
       timestamp: serverTimestamp(),
     }
 
-    formDataCopy.location = address
-    delete formDataCopy.images
+    formDataCopy.location = address //passing the full address that we got from from mapbox response data
+    
+    //deleting unused properties :
+    delete formDataCopy.images  //since we only want imgUrl
     delete formDataCopy.address
     !formDataCopy.offer && delete formDataCopy.discountedPrice
-
+    //saving our new collection variable to our database
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
     toast.success('Listing saved')
@@ -223,7 +231,7 @@ function CreateListing() {
     if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
-        [e.target.id]: boolean ?? e.target.value,  //e.target.id is recognized by id attribute
+        [e.target.id]: boolean ?? e.target.value,  //NOTE: [e.target.id] is recognized by 'id' attribute
       }))
     }
   }
