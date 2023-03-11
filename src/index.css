@@ -330,12 +330,12 @@ button {
 .swiperSlideDiv {
   position: relative;
   width: 100%;
-  height: 100%;
 }
 
 .swiperSlideImg {
   width: 100%;
   object-fit: cover;
+  
 }
 
 .swiperSlideText {
@@ -349,7 +349,10 @@ button {
   background-color: rgba(0, 0, 0, 0.8);
   padding: 0.5rem;
 }
-@media (min-width: 1024px) {
+@media (min-width: 700px) {
+  .swiperSlideImg {
+    height: 50vh;
+  }
   .swiperSlideText {
     font-size: 1.75rem;
   }
@@ -551,14 +554,33 @@ button {
   font-size: 1.25rem;
 }
 
-.leafletContainer {
+.mapboxContainer {
   width: 100%;
-  height: 200px;
+  height: 300px;
   overflow-x: hidden;
   margin-bottom: 3rem;
+    position: relative;
 }
+
+.map-container {
+  height: 400px;
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
 @media (min-width: 1024px) {
-  .leafletContainer {
+  .mapboxContainer {
     height: 400px;
   }
 }
