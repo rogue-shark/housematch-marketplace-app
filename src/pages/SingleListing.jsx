@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import MapboxMap from '../components/MapboxMap';
-
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,6 +54,7 @@ function SingleListing() {
   }
 
   return (
+    <HelmetProvider>  
     <main>
       <Helmet>
         <title>{listing.name}</title>
@@ -146,6 +147,7 @@ function SingleListing() {
         )}
       </div>
     </main>
+    </HelmetProvider>
   );
 }
 

@@ -12,7 +12,8 @@ function MapboxMap(props) {
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(13);
+  // eslint-disable-next-line
+  const [zoom, setZoom] = useState(13); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,9 +57,9 @@ function MapboxMap(props) {
 
   return (
     <>
-      <div className='sidebar'>
+      {/* <div className='sidebar'>
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
+      </div> */}
       <div ref={mapContainer} className='map-container' />
     </>
   );

@@ -21,7 +21,8 @@ const mbxGeocoder = mbxGeocoding({
 
 
 function CreateListing() {
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true)
+  // eslint-disable-next-line
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true) 
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     //setting defaults

@@ -50,7 +50,7 @@ function SignUp() {
 
       navigate('/')
     } catch (error) {
-      toast.error('Oops, something went wrong! Please, try again.')
+      toast.error('Something went wrong! Please, try again.')
     }
   }
 
@@ -58,7 +58,7 @@ function SignUp() {
     <>
       <div className='pageContainer'>
         <header>
-          <p className='pageHeader'>Welcome Back!</p>
+          <p className='pageHeader'>Get started here!</p>
         </header>
 
         <form onSubmit={onSubmit}>
@@ -102,8 +102,13 @@ function SignUp() {
             Forgot Password
           </Link>
 
+          
+        <Link to='/sign-in' className='registerLink'>
+          Sign In Instead ?
+        </Link>
+
           <div className='signUpBar'>
-            <p className='signUpText'>Sign In</p>
+            <p className='signUpText'>Sign Up</p>
             <button className='signUpButton'>
               <ArrowRightIcon fill='#fff' width='34px' height='34px' />
             </button>
@@ -111,10 +116,6 @@ function SignUp() {
         </form>
 
         <OAuth />
-
-        <Link to='/sign-in' className='registerLink'>
-          Sign In Instead
-        </Link>
 
       </div>
     </>

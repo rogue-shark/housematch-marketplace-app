@@ -23,7 +23,7 @@ function Navbar() {
           {/* NOTE: The fill attribute in SVG  specifies the fill color or pattern of a shape or text */}
           <li className='navbarListItem' onClick={() => navigate('/')}>
             <ExploreIcon
-              fill={ifPathMatchesRoute('/') ? '#2c2c2c' : '#8f8f8f'}
+              fill={ifPathMatchesRoute('/') ? '#ffdb57' : '#d2d0d0'}
               width='36px'
               height='36px'
             />
@@ -31,15 +31,15 @@ function Navbar() {
           </li>
           <li className='navbarListItem' onClick={() => navigate('/offers')}>
             <OfferIcon
-              fill={ifPathMatchesRoute('/offers') ? '#2c2c2c' : '#8f8f8f'}
+              fill={ifPathMatchesRoute('/offers') ? '#ffdb57' : '#d2d0d0'}
               width='36px'
               height='36px'
             />
-            <p className={ifPathMatchesRoute('/offers') ? 'navbarListItemNameActive' : 'navbarListItemName'}>Offer</p>
+            <p className={ifPathMatchesRoute('/offers') ? 'navbarListItemNameActive' : 'navbarListItemName'}>Offers</p>
           </li>
           <li className='navbarListItem' onClick={() => navigate('/profile')}>
             <PersonOutlineIcon
-              fill={ifPathMatchesRoute('/profile') ? '#2c2c2c' : '#8f8f8f'}
+              fill={ifPathMatchesRoute('/profile') || ifPathMatchesRoute('/sign-in') ? '#ffdb57' : '#d2d0d0'}
               width='36px'
               height='36px'
             />
