@@ -108,7 +108,7 @@ button {
   }
 }
 
-.pageContainer,
+/* .pageContainer, */
 .offers,
 .profile,
 .listingDetails,
@@ -118,7 +118,9 @@ button {
 }
 
 .pageContainer{
-  margin-bottom: 10rem;
+  max-width: 850px;
+  margin: 0 auto ;
+  padding: 2em;
 }
 
 @media (min-width: 1024px) {
@@ -129,6 +131,10 @@ button {
   .category,
   .explore {
     margin: 3rem;
+  }
+
+  .pageContainer{
+    margin: 0 auto;
   }
 }
 
@@ -479,7 +485,7 @@ button {
   transition: box-shadow 0.25s ease-in-out;
   padding: .3em;
   display: flex;
-  gap: .5rem;
+  gap: .7rem;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
@@ -513,11 +519,15 @@ button {
 }
 
 .categoryListingDetails {  
+  display: flex;
+  flex-direction: column;
   width: 65%;
 }
 @media (min-width: 1024px) {
   .categoryListingDetails {
     width: 79%;
+    flex-direction: row;
+    gap: 2rem;
   }
 }
 
@@ -549,6 +559,13 @@ button {
   justify-content: space-between;
   max-width: 275px;
 }
+
+@media (min-width: 1024px) {
+  .categoryListingInfoDiv {
+    gap: 5px;
+  }
+}
+
 
 .categoryListingInfoText {
   font-weight: 500;

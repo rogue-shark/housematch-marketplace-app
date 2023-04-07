@@ -1,7 +1,7 @@
 # HouseMatch | Marketplace
 
  <h2>
-   <a href="https://housematch-marketplace.netlify.app/">
+   <a href="https://housematch-marketplace.netlify.app/" target="_blank">
       TAKE ME TO THE SITE ->
    </a>
 </h2>

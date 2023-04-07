@@ -17,6 +17,7 @@ function ListingItem({ listing, id, onEdit, onDelete }) {
           className='categoryListingImg'
         />
         <div className='categoryListingDetails'>
+          <div>
           <p className='categoryListingLocation'>{listing.location}</p>
           <p className='categoryListingName'>{listing.name}</p>
 
@@ -31,6 +32,7 @@ function ListingItem({ listing, id, onEdit, onDelete }) {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             {listing.type === 'rent' && ' / Month'}
           </p>
+          </div>
           <div className='categoryListingInfoDiv'>
             <img src={bedIcon} alt='bed' />
             <p className='categoryListingInfoText'>
